@@ -1,15 +1,21 @@
 const express = require("express");
-const { Subject } = require("../models/index");
+const { Subject, Professor } = require("../models/index");
 const router = express.Router();
 
 router.get("/cadeiras", (req, res) => {
-    res.json({ msg: "cadeiras" });
+    Subject.findAll({ include: [Professor] })
+        .then(subjects => {
+            res.json(subjects);
+        })
+        .catch(err => {
+            res.json(err);
+        });
 });
 
 router.post("/cadeiras/criar", (req, res) => {
-    const { name, code, description } = req.body;
+    const { name, code, description, professorId } = req.body;
 
-    Subject.create({ name, code, description })
+    Subject.create({ name, code, description, professorId })
         .then(subject => {
             res.json(subject);
         })
@@ -19,7 +25,7 @@ router.post("/cadeiras/criar", (req, res) => {
 });
 
 router.get("/cadeiras/ver/:id", (req, res) => {
-    Subject.findOne({ where: { id: req.params.id } })
+    Subject.findOne({ where: { id: req.params.id }, include: [Professor] })
         .then(subject => {
             res.json(subject);
         })
@@ -29,13 +35,13 @@ router.get("/cadeiras/ver/:id", (req, res) => {
 });
 
 router.post("/cadeiras/editar/:id", (req, res) => {
-    const { name, code, description } = req.body;
+    const { name, code, description, professorId } = req.body;
 
     Subject.findOne({ where: { id: req.params.id } })
         .then(subject => {
             if (subject) {
                 subject
-                    .update({ name, code, description })
+                    .update({ name, code, description, professorId })
                     .then(subject => {
                         res.json(subject);
                     })

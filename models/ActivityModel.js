@@ -1,6 +1,6 @@
 const Activity = function(sequelize, DataTypes) {
     return sequelize.define(
-        "Activity",
+        "activity",
         {
             description: {
                 type: DataTypes.STRING,

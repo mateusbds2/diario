@@ -5,7 +5,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../config");
 
 sequelize
-    .sync()
+    .sync({ force: false })
     .then(() => {
         console.log("Tabelas criadas com sucesso.");
     })
@@ -20,8 +20,8 @@ const Activity = ActivityModel(sequelize, Sequelize);
 Subject.belongsTo(Professor, {
     foreignKey: "professorId"
 });
-Professor.hasMany(Professor, {
-    foreignKey: "subjectId"
+Professor.hasMany(Subject, {
+    foreignKey: "professorId"
 });
 Professor.hasMany(Activity, {
     foreignKey: "professorId"

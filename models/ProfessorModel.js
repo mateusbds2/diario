@@ -1,6 +1,6 @@
 const Professor = function(sequelize, DataTypes) {
     return sequelize.define(
-        "Professor",
+        "professor",
         {
             name: {
                 type: DataTypes.STRING,
@@ -8,10 +8,6 @@ const Professor = function(sequelize, DataTypes) {
             },
             code: {
                 type: DataTypes.STRING,
-                allowNull: false
-            },
-            subjectId: {
-                type: DataTypes.INTEGER,
                 allowNull: false
             }
         },
